@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :downvote, :upvote]
   before_filter :authenticate_user!, except: [:index, :show]
   def index
     @posts = Post.all
@@ -40,6 +40,19 @@ class PostsController < ApplicationController
       format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
     end
   end
+
+  def upvote
+    # @post = Post.find(params[:id])
+    @post.upvote_by current_user
+    redirect_to :back
+  end
+
+  def downvote
+    # @post = Post.find(params[:id])
+    @post.downvote_by current_user
+    redirect_to :back
+  end
+
 
   private
     

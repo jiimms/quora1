@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
+  
+  resources :comments
   devise_for :users
-  resources :posts
+  resources :posts do
+    member do
+      put "like",to: "posts#upvote"
+      put "dislike",to: "posts#downvote"
+    end
+    resources :comments
+  end
 
   root 'posts#index'
   # The priority is based upon order of creation: first created -> highest priority.
@@ -38,8 +46,7 @@ Rails.application.routes.draw do
 
   # Example resource route with more complex sub-resources:
   #   resources :products do
-  #     resources :comments
-  #     resources :sales do
+  #     #     resources :sales do
   #       get 'recent', on: :collection
   #     end
   #   end
